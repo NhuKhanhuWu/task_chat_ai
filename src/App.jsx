@@ -1,7 +1,7 @@
 /** @format */
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Homepage from "./pages/homepage";
+import Homepage from "./pages/Homepage.jsx";
 import { ChatProvider } from "./context/ChatContext";
 
 import "./App.css";
