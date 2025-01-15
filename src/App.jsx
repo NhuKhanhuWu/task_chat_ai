@@ -1,12 +1,20 @@
 /** @format */
 
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Homepage from "./pages/homepage";
+import { ChatProvider } from "./context/ChatContext";
+
+import "./App.css";
+
 function App() {
   return (
-    <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ChatProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Homepage></Homepage>}></Route>
+        </Routes>
+      </BrowserRouter>
+    </ChatProvider>
   );
 }
 

@@ -1,0 +1,16 @@
+/** @format */
+/* primary btn */
+.primaryBtn {
+  background-color: black;
+  color: white;
+  transition: all 0.3s;
+}
+
+.primaryBtn:hover {
+  background-color: rgb(73, 73, 73);
+}
+
+/* secondary btn */
+.secondaryBtn {
+  border: solid 1px rgb(191, 191, 191);
+}
