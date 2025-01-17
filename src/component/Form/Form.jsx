@@ -6,9 +6,12 @@ import Button from "../Button/Button";
 import { useChat } from "../../context/ChatContext";
 import useGetDraft from "../../hook/useGetDraft";
 import { useEffect, useState } from "react";
+import { useLoad } from "../../context/LoadContext";
 
 function ChatForm() {
   const { addChat, setSystemMessage } = useChat();
+  const { setIsLoading } = useLoad();
+  const isLoading = true;
   const [newTaskRequest, setTaskRequest] = useState(null);
   const [draft, setDraft] = useState(null);
   const [userRequest, setUserRequest] = useState(null);
@@ -20,7 +23,7 @@ function ChatForm() {
   });
 
   // Form submission handler
-  const handleSubmit = (values, { resetForm }) => {
+  function handleSubmit(values, { resetForm }) {
     const taskData = {
       sender: "user",
       title: values.title,
@@ -35,18 +38,26 @@ function ChatForm() {
     }); // save user request
 
     resetForm();
-  };
+  }
 
   // Fetch draft only when `newTaskRequest` changes
   useEffect(() => {
     if (!newTaskRequest) return;
 
     const fetchDraft = async () => {
-      const response = await useGetDraft(
-        newTaskRequest.title,
-        newTaskRequest.description
-      );
-      setDraft({ ...response, ...userRequest });
+      setIsLoading(true); // Set loading to true before API call
+
+      try {
+        const response = await useGetDraft(
+          newTaskRequest.title,
+          newTaskRequest.description
+        );
+        setDraft({ ...response, ...userRequest });
+      } catch (error) {
+        console.error("Error fetching draft:", error);
+      } finally {
+        setIsLoading(false); // Set loading to false after API call
+      }
     };
 
     fetchDraft();
@@ -62,17 +73,20 @@ function ChatForm() {
     <Formik
       initialValues={{ title: "", description: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values, { resetForm }) => handleSubmit(values, resetForm)}>
+      onSubmit={handleSubmit}>
       {/* {() => ( */}
       <Form className="flex flex-col gap-8 mx-auto p-5 bg-white rounded-2xl border-2">
         {/* Title Input */}
         <label className="text-2xl font-bold">
           Task Name:
           <Field
+            disabled={isLoading}
             name="title"
             type="text"
             placeholder="Enter task name"
-            className="w-full p-2 border border-gray-300 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-green-500 font-normal"
+            className={`w-full p-2 border border-gray-300 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-green-500 font-normal ${
+              isLoading ? "cursor-not-allowed" : ""
+            }`}
           />
           <ErrorMessage
             name="title"
@@ -85,10 +99,13 @@ function ChatForm() {
         <label className="text-2xl font-bold">
           Description:
           <Field
+            disabled={isLoading}
             as="textarea"
             name="description"
             placeholder="Enter task description"
-            className="w-full p-2 border border-gray-300 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none h-80 font-normal"
+            className={`w-full p-2 border border-gray-300 rounded mt-2 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none h-80 font-normal ${
+              isLoading && "cursor-not-allowed"
+            }`}
           />
           <ErrorMessage
             name="description"
@@ -98,7 +115,11 @@ function ChatForm() {
         </label>
 
         {/* Submit Button */}
-        <Button isSubmitBtn={true} type={"primaryBtn"}>
+        <Button
+          disabled={isLoading}
+          isSubmitBtn={true}
+          type={"primaryBtn"}
+          className={`${isLoading && "bg-gray-400 cursor-not-allowed"}`}>
           Generate Draft
         </Button>
       </Form>

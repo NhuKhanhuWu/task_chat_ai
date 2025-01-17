@@ -2,8 +2,8 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const VITE_GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(VITE_GEMINI_API_KEY);
 
 async function useGetDraft(title, description) {
   if (!title || !description) return;
@@ -24,7 +24,7 @@ async function useGetDraft(title, description) {
                   sender: "ai",
                   type: "task"}
                   - if the task not is valid (doesn't have meaning, its meaning is not a task) , reply with this format
-                  {message: "error message here", 
+                  {message: "Error, the task is not valid or it doesn't have meaning", 
                   sender:"system",  
                   type: "error"}
                   - using only space, charatater, number for the response, no "enter", "tab",... 

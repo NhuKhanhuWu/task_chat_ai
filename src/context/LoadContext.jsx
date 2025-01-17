@@ -5,7 +5,7 @@ import { createContext, useContext, useState } from "react";
 const LoadContext = createContext();
 
 function LoadProvider({ children }) {
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <LoadContext.Provider value={{ isLoading, setIsLoading }}>
@@ -14,7 +14,7 @@ function LoadProvider({ children }) {
   );
 }
 
-function useDraft() {
+function useLoad() {
   const context = useContext(LoadContext);
   if (!context) {
     throw new Error("LoadContext was used outside of the LoadProvider");
@@ -23,4 +23,4 @@ function useDraft() {
   return context;
 }
 
-export { LoadProvider, useDraft };
+export { LoadProvider, useLoad };

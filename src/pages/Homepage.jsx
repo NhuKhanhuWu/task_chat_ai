@@ -7,9 +7,12 @@ import Form from "../component/Form/Form";
 import SystemMessage from "../component/SystemMessage/SystemMessage";
 import TaskContent from "../component/TaskContent/TaskContent";
 import { useChat } from "../context/ChatContext";
+import { useLoad } from "../context/LoadContext";
+import Loadder from "../component/Loadder/Loadder";
 
 function Homepage() {
   const { chatContent, systemMessage } = useChat();
+  const { isLoading } = useLoad();
 
   return (
     <div className="flex mt-6 ml-6">
@@ -25,7 +28,7 @@ function Homepage() {
       </div>
 
       {/* ANSWEAR */}
-      <div className="w-1/2 relative pl-10 flex flex-col h-svh overflow-y-scroll">
+      <div className="w-1/2 relative pl-10 flex flex-col h-svh overflow-y-scroll relative">
         {chatContent.length !== 0 ? (
           chatContent.map((chat, i) => (
             <ChatBubble sender={chat?.sender} key={i} index={i}>
@@ -40,6 +43,8 @@ function Homepage() {
             Your chat will appear here
           </p>
         )}
+
+        {isLoading && <Loadder></Loadder>}
       </div>
 
       {/* SYSTEM MESSAGE */}

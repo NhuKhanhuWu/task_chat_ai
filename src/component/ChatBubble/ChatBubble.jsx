@@ -2,6 +2,8 @@
 
 import fakeApiPost from "../../api/postApi";
 import { useChat } from "../../context/ChatContext";
+import { useLoad } from "../../context/LoadContext";
+import Loadder from "../Loadder/Loadder";
 import styles from "./ChatBubble.module.css";
 
 function getSaveDtae() {
@@ -42,6 +44,8 @@ function SaveDraftBtn({ children, index }) {
 }
 
 function ChatBubble({ children, sender, index = null }) {
+  const { isLoading } = useLoad();
+
   return (
     <div
       className={`${styles.chatBubble} ${
