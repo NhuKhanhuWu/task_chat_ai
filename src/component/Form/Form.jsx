@@ -52,8 +52,8 @@ function ChatForm() {
           newTaskRequest.description
         );
         setDraft({ ...response, ...userRequest });
-      } catch (error) {
-        console.error("Error fetching draft:", error);
+      } catch (err) {
+        console.error("Error fetching draft:", err);
       } finally {
         setIsLoading(false); // Set loading to false after API call
       }

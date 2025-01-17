@@ -1,19 +1,32 @@
 /** @format */
 
-function fakeApiPost(table, data) {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
+import { openDB } from "idb";
+
+async function postApi(table, data) {
+  return new Promise(async (resolve, reject) => {
+    setTimeout(async () => {
       try {
-        // Get existing data from localStorage
-        const existingData = JSON.parse(localStorage.getItem(table)) || [];
+        const db = await openDB("ChatAppDB", 1, {
+          upgrade(db) {
+            if (!db.objectStoreNames.contains(table)) {
+              db.createObjectStore(table, {
+                keyPath: "id",
+                autoIncrement: true,
+              });
+            }
+          },
+        });
 
-        // Add the new data
-        existingData.push(data);
+        const tx = db.transaction(table, "readwrite");
+        const store = tx.store;
+        const id = await store.add(data);
+        await tx.done;
 
-        // Save back to localStorage
-        localStorage.setItem(table, JSON.stringify(existingData));
-
-        resolve({ status: 201, message: "Data saved successfully", data });
+        resolve({
+          status: 201,
+          message: "Data saved successfully",
+          data: { ...data, id },
+        });
       } catch (error) {
         reject({ status: 500, message: "Error saving data", error });
       }
@@ -21,4 +34,4 @@ function fakeApiPost(table, data) {
   });
 }
 
-export default fakeApiPost;
+export default postApi;

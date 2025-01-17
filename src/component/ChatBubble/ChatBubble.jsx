@@ -1,9 +1,8 @@
 /** @format */
 
-import fakeApiPost from "../../api/postApi";
+import postApi from "../../api/postApi";
 import { useChat } from "../../context/ChatContext";
 import { useLoad } from "../../context/LoadContext";
-import Loadder from "../Loadder/Loadder";
 import styles from "./ChatBubble.module.css";
 
 function getSaveDtae() {
@@ -23,13 +22,10 @@ function SaveDraftBtn({ children, index }) {
   const { chatContent, setSystemMessage } = useChat();
 
   async function handleSveDraft() {
-    const id = localStorage.getItem("savedDraft")
-      ? JSON.parse(localStorage.getItem("savedDraft")).length + 1
-      : 1;
-    const draft = { ...chatContent[index], id: id, saveDate: getSaveDtae() };
+    const draft = { ...chatContent[index], saveDate: getSaveDtae() };
 
     try {
-      const response = await fakeApiPost("savedDraft", draft);
+      const response = await postApi("savedDraft", draft);
       setSystemMessage(response);
     } catch (err) {
       setSystemMessage(err);
