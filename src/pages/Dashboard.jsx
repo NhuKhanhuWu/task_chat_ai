@@ -52,7 +52,7 @@ function Dashboard() {
   return (
     <div className="mt-6 ml-6">
       {/* return to chat btn */}
-      <Button type="secondaryBtn" className="mb-8">
+      <Button type="secondaryBtn" className="mb-8 sticky top-10">
         <span className="material-symbols-outlined">forum</span>{" "}
         <Link to="/">Chat Task</Link>
       </Button>
