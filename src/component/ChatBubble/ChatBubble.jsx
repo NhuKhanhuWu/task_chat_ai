@@ -28,7 +28,7 @@ function SaveDraftBtn({ children, index }) {
       const response = await postApi("savedDraft", draft);
       setSystemMessage(response);
     } catch (err) {
-      setSystemMessage(err);
+      setSystemMessage({ err: err, type: "error" });
     }
   }
 
