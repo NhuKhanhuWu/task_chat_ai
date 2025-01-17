@@ -16,6 +16,7 @@ body {
 a,
 a:visited {
   text-decoration: none;
+  cursor: pointer;
 }
 
 button {

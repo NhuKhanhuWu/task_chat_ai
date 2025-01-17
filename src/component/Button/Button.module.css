@@ -10,6 +10,12 @@
   background-color: rgb(73, 73, 73);
 }
 
+.primaryBtn-disable {
+  background-color: rgb(107, 114, 128);
+  color: white;
+  cursor: not-allowed;
+}
+
 /* secondary btn */
 .secondaryBtn {
   border: solid 1px rgb(191, 191, 191);

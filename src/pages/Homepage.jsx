@@ -2,17 +2,13 @@
 
 import { Link } from "react-router-dom";
 import Button from "../component/Button/Button";
-import ChatBubble from "../component/ChatBubble/ChatBubble";
 import Form from "../component/Form/Form";
 import SystemMessage from "../component/SystemMessage/SystemMessage";
-import TaskContent from "../component/TaskContent/TaskContent";
 import { useChat } from "../context/ChatContext";
-import { useLoad } from "../context/LoadContext";
-import Loadder from "../component/Loadder/Loadder";
+import ChatBox from "../component/ChatBox/ChatBox";
 
 function Homepage() {
-  const { chatContent, systemMessage } = useChat();
-  const { isLoading } = useLoad();
+  const { systemMessage } = useChat();
 
   return (
     <div className="flex mt-6 ml-6">
@@ -28,27 +24,10 @@ function Homepage() {
       </div>
 
       {/* ANSWEAR */}
-      <div className="w-1/2 relative pl-10 flex flex-col h-svh overflow-y-scroll relative">
-        {chatContent.length !== 0 ? (
-          chatContent.map((chat, i) => (
-            <ChatBubble sender={chat?.sender} key={i} index={i}>
-              <TaskContent
-                title={chat?.title}
-                decsription={chat?.description}
-              />
-            </ChatBubble>
-          ))
-        ) : (
-          <p className="text-4xl text-center text-slate-400 absolute top-1/3 left-1/2 -translate-x-1/2">
-            Your chat will appear here
-          </p>
-        )}
-
-        {isLoading && <Loadder></Loadder>}
-      </div>
+      <ChatBox></ChatBox>
 
       {/* SYSTEM MESSAGE */}
-      {systemMessage && <SystemMessage message={systemMessage}></SystemMessage>}
+      <SystemMessage></SystemMessage>
     </div>
   );
 }

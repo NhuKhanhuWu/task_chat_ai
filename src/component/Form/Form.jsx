@@ -10,8 +10,7 @@ import { useLoad } from "../../context/LoadContext";
 
 function ChatForm() {
   const { addChat, setSystemMessage } = useChat();
-  const { setIsLoading } = useLoad();
-  const isLoading = true;
+  const { isLoading, setIsLoading } = useLoad();
   const [newTaskRequest, setTaskRequest] = useState(null);
   const [draft, setDraft] = useState(null);
   const [userRequest, setUserRequest] = useState(null);
@@ -118,8 +117,7 @@ function ChatForm() {
         <Button
           disabled={isLoading}
           isSubmitBtn={true}
-          type={"primaryBtn"}
-          className={`${isLoading && "bg-gray-400 cursor-not-allowed"}`}>
+          type={isLoading ? "primaryBtn-disable" : "primaryBtn"}>
           Generate Draft
         </Button>
       </Form>

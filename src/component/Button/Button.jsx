@@ -1,11 +1,18 @@
 /** @format */
 import styles from "./Button.module.css";
 
-function Button({ isSubmitBtn = false, type = "", children, className = "" }) {
+function Button({
+  isSubmitBtn = false,
+  type = "",
+  children,
+  className = "",
+  disabled = false,
+}) {
   return (
     <button
+      disabled={disabled}
       type={isSubmitBtn && "submit"}
-      className={`btn cursor-pointer ${styles[type]} ${className}`}>
+      className={`btn ${styles[type]} ${className}`}>
       {children}
     </button>
   );
