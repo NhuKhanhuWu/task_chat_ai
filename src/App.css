@@ -24,6 +24,11 @@ button {
   cursor: pointer;
 }
 
+ul,
+ol {
+  list-style: none;
+}
+
 .btn {
   border-radius: 999px;
   width: fit-content;
@@ -33,4 +38,8 @@ button {
   align-items: center;
   gap: 0.5rem;
   font-size: 1.5rem;
+}
+
+.hidden {
+  display: none;
 }

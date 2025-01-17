@@ -5,7 +5,7 @@ function Button({ isSubmitBtn = false, type = "", children, className = "" }) {
   return (
     <button
       type={isSubmitBtn && "submit"}
-      className={`btn ${styles[type]} ${className}`}>
+      className={`btn cursor-pointer ${styles[type]} ${className}`}>
       {children}
     </button>
   );
