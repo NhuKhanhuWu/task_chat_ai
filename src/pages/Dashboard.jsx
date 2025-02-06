@@ -23,10 +23,37 @@ function TableHead() {
   );
 }
 
+function SortBtn({ setSavedDraft }) {
+  // Function to parse 'dd/MM/yyyy HH:mm' to a Date object
+  function parseDate(dateStr) {
+    const [day, month, year, hours, minutes] = dateStr.split(/[/\s:]/);
+    return new Date(`${year}-${month}-${day}T${hours}:${minutes}:00`);
+  }
+
+  function handleSort(order) {
+    setSavedDraft((prevDrafts) =>
+      [...prevDrafts].sort((a, b) =>
+        order === "oldest"
+          ? parseDate(a.saveDate) - parseDate(b.saveDate)
+          : parseDate(b.saveDate) - parseDate(a.saveDate)
+      )
+    );
+  }
+
+  return (
+    <div>
+      <span className="mr-4 text-xl font-bold">Sort by</span>
+      <select
+        onChange={(e) => handleSort(e.target.value)}
+        className="p-4 my-12 border border-gray-500 rounded-none w-32">
+        <option value="oldest">Oldest</option>
+        <option value="latest">Latest</option>
+      </select>
+    </div>
+  );
+}
+
 function Dashboard() {
-  // const savedDraft = localStorage.getItem("savedDraft") //if there is any draft saved
-  //   ? JSON.parse(localStorage.getItem("savedDraft")) //return draft in local storage
-  //   : []; //else return empty arr
   const { isLoading, setIsLoading } = useLoad();
   const [savedDraft, setSavedDraft] = useState([]);
 
@@ -66,15 +93,19 @@ function Dashboard() {
           <Loadder></Loadder>
         </>
       ) : (
-        <table className="table-auto border-collapse border border-gray-300 w-full text-left">
-          <TableHead></TableHead>
+        <>
+          <SortBtn setSavedDraft={setSavedDraft}></SortBtn>
 
-          <tbody>
-            {savedDraft.map((draft) => (
-              <SaveDraft draft={draft} key={draft.id}></SaveDraft>
-            ))}
-          </tbody>
-        </table>
+          <table className="table-auto border-collapse border border-gray-300 w-full text-left">
+            <TableHead></TableHead>
+
+            <tbody>
+              {savedDraft.map((draft) => (
+                <SaveDraft draft={draft} key={draft.id}></SaveDraft>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
     </div>
   );
